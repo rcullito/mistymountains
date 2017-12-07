@@ -1,20 +1,8 @@
-/*
-  Melody
-
-  Plays a melody
-
-  circuit:
-  - 8 ohm speaker on digital pin 8
-
-  created 21 Jan 2010
-  modified 1 Dec 2017
-  by Rob Culliton
-
-  This example code is in the public domain.
-
-*/
-
 #include "pitches.h"
+
+int speakerPin = 11;                // choose the pin for the speaker
+int inputPin = 2;               // choose the input pin (for PIR sensor)
+int val = 0;                    // variable for reading the pin status
 
 // notes in the melody:
 int melody[] = {
@@ -28,24 +16,37 @@ int noteDurations[] = {
   1, 1, 1, 1, 1, 2, 2, 2, 1
 };
 
-void setup() {
+void playSong(){
   // iterate over the notes of the melody:
   for (int thisNote = 0; thisNote < 19; thisNote++) {
 
     // to calculate the note duration, take one second divided by the note type.
     //e.g. quarter note = 1000 / 4, eighth note = 1000/8, etc.
     int noteDuration = 1000 / noteDurations[thisNote];
-    tone(11, melody[thisNote], noteDuration);
+    tone(speakerPin, melody[thisNote], noteDuration);
 
     // to distinguish the notes, set a minimum time between them.
     // the note's duration + 30% seems to work well:
     int pauseBetweenNotes = noteDuration * 1.30;
     delay(pauseBetweenNotes);
     // stop the tone playing:
-    noTone(11);
+    noTone(speakerPin);
+  }
+
+}
+
+void misty (int val) {
+   if (val == HIGH) {            
+    playSong(); 
   }
 }
 
+void setup() {
+  pinMode(inputPin, INPUT);     // declare sensor as input
+  pinMode(speakerPin, OUTPUT);      // declare LED as output
+}
+
 void loop() {
-  // no need to repeat the melody.
+  val = digitalRead(inputPin);  // read input value
+  misty(val);
 }
