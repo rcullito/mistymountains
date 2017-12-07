@@ -1,7 +1,7 @@
 #include "pitches.h"
 
-int speakerPin = 11;                // choose the pin for the speaker
-int inputPin = 2;               // choose the input pin (for PIR sensor)
+int speakerPin = 2;                // choose the pin for the speaker
+int inputPin = 11;               // choose the input pin (for PIR sensor)
 int val = 0;                    // variable for reading the pin status
 
 // notes in the melody:
